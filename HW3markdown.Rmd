@@ -1,6 +1,6 @@
 ---
 title: "HW3"
-author: "Kara Godsey, Deep Karki"
+author: "Kara Godsey, Deep Sagar Karki"
 date: "3/18/2021"
 output: html_document
 ---
