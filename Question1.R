@@ -11,6 +11,7 @@ n <- 58
 totx_a <-rep(NA,100)
 bias_a <-rep(NA,100)
 re_a <- rep(NA,100)
+bias_re <- rep(NA,100)
 thatr_a <- data.frame(1:100,1:2)
 colnames(thatr_a)<-c("REtotest","SE")
 
@@ -28,12 +29,16 @@ for(i in 101:200){
   ratestdeath <- svyratio(~Deaths, ~Cases, corsampdes)
   re_a[i-100] <- ratestdeath$ratio
   thatr <- predict(ratestdeath,total = sum(cor$Cases),se=TRUE)
-  thatr_a[i-100,1] <- as.numeric(thatr$total)
+  retotal <- as.numeric(thatr$total)
+  thatr_a[i-100,1] <- retotal
   thatr_a[i-100,2] <- as.numeric(thatr$se)
+  bias_ratio <- retotal - truetotdeath
+  bias_re[i-100] <- bias_ratio
 }
 
 totx_a<-data.frame(totx_a)
 bias_a<-data.frame(bias_a)
+bias_re<-data.frame(bias_re)
 re_a<-data.frame(re_a)
 
 totaplot <- ggplot(totx_a,aes(totx_a)) + geom_histogram(bins=30)
