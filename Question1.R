@@ -40,18 +40,45 @@ totx_a<-data.frame(totx_a)
 bias_a<-data.frame(bias_a)
 bias_re<-data.frame(bias_re)
 re_a<-data.frame(re_a)
+totre <- data.frame(thatr_a[,1])
+colnames(totre) <- "TotRE"
 
 totaplot <- ggplot(totx_a,aes(totx_a)) + geom_histogram(bins=30)
 totaplot
 
-biasaplot <- ggplot(bias_a,aes(bias_a)) + geom_histogram(bins=30)
+biasaplot <- ggplot(bias_a,aes(bias_a)) + geom_histogram(bins=30) + labs(title = "Basic Estimation")
 biasaplot
+
+biasreplot <- ggplot(bias_re,aes(bias_re)) + geom_histogram(bins=30) + labs(title = "Ratio Estimation")
+biasreplot
 
 var_a<-var(totx_a)
 var_a
 
+totreplot <- ggplot(totre,aes(x=TotRE))+ geom_histogram(bins=30)
+totreplot
 
-ratestdeath <- svyratio(~Deaths, ~Cases, corsampdes)
-ratestdeath
-thatr <- predict(ratestdeath,total = sum(cor$cases),se=TRUE)
-thatr
+avgbias1 <- mean(bias_a[,1])
+avgbias1
+
+avgbias2 <- mean(bias_re[,1])
+avgbias2
+
+avgbias <- merge(avgbias1,avgbias2)
+avgbias
+colnames(avgbias) <- c("totx_a","TotRE")
+
+variance1 <- var(totx_a)
+variance2 <- var(totre)
+
+variance_est <- merge(variance1, variance2)
+
+partf <- rbind(avgbias,variance_est)
+rownames(partf) <- c("Average Bias", "Variance")
+colnames(partf) <- c("Estimate 1", "Estimate 2")
+
+MSE_me <- variance1 +(avgbias1^2)
+MSE_me
+
+MSE_re <- variance2 + (avgbias2^2)
+MSE_re

@@ -27,6 +27,78 @@ load("~/R/STAT5060/5060hw3/corona330.RData")
 cor <- corona330[,c(1,2,3,6)]
 colnames(cor) <- c("Province.State","Country.Region","Cases","Deaths")
 N <- length(unique(cor$Country.Region))
+cor$fpc <- N
+n <- 58
+
+totx_a <-rep(NA,100)
+bias_a <-rep(NA,100)
+re_a <- rep(NA,100)
+bias_re <- rep(NA,100)
+thatr_a <- data.frame(1:100,1:2)
+colnames(thatr_a)<-c("REtotest","SE")
+
+#actual death count
+truetotdeath <- sum(cor$Deaths)
+
+
+for(i in 101:200){
+  set.seed(i)
+  corsamp <- cor[sort(sample(N,n)),]
+  corsampdes <- svydesign(id = ~1, strata = NULL, data = corsamp, fpc = ~fpc)
+  sampdeathtot <- svytotal(~Deaths, design=corsampdes, na.rm=TRUE)
+  bias <- sampdeathtot - truetotdeath
+  bias_a[i-100] <- bias
+  totx_a[i-100] <- sampdeathtot
+  ratestdeath <- svyratio(~Deaths, ~Cases, corsampdes)
+  re_a[i-100] <- ratestdeath$ratio
+  thatr <- predict(ratestdeath,total = sum(cor$Cases),se=TRUE)
+  retotal <- as.numeric(thatr$total)
+  thatr_a[i-100,1] <- retotal
+  thatr_a[i-100,2] <- as.numeric(thatr$se)
+  bias_ratio <- retotal - truetotdeath
+  bias_re[i-100] <- bias_ratio
+}
+
+totx_a<-data.frame(totx_a)
+bias_a<-data.frame(bias_a)
+bias_re<-data.frame(bias_re)
+re_a<-data.frame(re_a)
+totre <- data.frame(thatr_a[,1])
+colnames(totre) <- "TotRE"
+
+totaplot <- ggplot(totx_a,aes(totx_a)) + geom_histogram(bins=30) + labs(title = "Basic Estimation")
+
+biasaplot <- ggplot(bias_a,aes(bias_a)) + geom_histogram(bins=30) + labs(title = "Basic Estimation")
+
+biasreplot <- ggplot(bias_re,aes(bias_re)) + geom_histogram(bins=30) + labs(title = "Ratio Estimation")
+
+var_a<-var(totx_a)
+
+totreplot <- ggplot(totre,aes(x=TotRE))+ geom_histogram(bins=30) + labs(title = "Ratio Estimation")
+
+avgbias1 <- mean(bias_a[,1])
+
+avgbias2 <- mean(bias_re[,1])
+
+avgbias <- merge(avgbias1,avgbias2)
+colnames(avgbias) <- c("totx_a","TotRE")
+
+variance1 <- var(totx_a)
+variance2 <- var(totre)
+
+variance_est <- merge(variance1, variance2)
+
+partf <- rbind(avgbias,variance_est)
+rownames(partf) <- c("Average Bias", "Variance")
+colnames(partf) <- c("Estimate 1", "Estimate 2")
+
+MSE_me <- variance1 +(avgbias1^2)
+
+MSE_re <- variance2 + (avgbias2^2)
+
+MSE <- merge(MSE_me,MSE_re)
+rownames(MSE) <- "MSE"
+colnames(MSE) <- c("Mean estimator", "Ratio estimator")
 ```
 
 ***Part a***
@@ -38,6 +110,58 @@ With this assumption, we find the number of countries by finding the number of u
 ```{r b,include=TRUE}
 N
 ```
+
+***Part b***
+
+The actual death total is found by summing up the deaths contained in our population file.
+
+```{r c, include = TRUE}
+truetotdeath
+```
+
+This number is utilized to calculate the bias of each sample, which will be evident in the appendix of code as well as the graphs.
+
+***Part c and part d***
+
+The mechanics of these parts can be seen in the appendix of code, with the outputs represented in the graphs shown for part e.
+
+***Part e***
+
+First we will show histograms for estimates of the total number of deaths in the world as a result of the coronavirus. 
+
+The graph on the left depicts our basic estimation of a total with an SRS. The graph on the right depicts the total derived from ratio estimation, where the number of cases confirmed is used as the auxiliary variable.
+
+```{r d,fig.show="hold", out.width="50%"}
+totaplot
+totreplot
+```
+
+Now we will show the comparison of bias in each of the two estimations.
+
+```{r e,fig.show="hold", out.width="50%"}
+biasaplot
+biasreplot
+```
+
+**Part f**
+
+The average bias as well as the variance for each of the estimates are given below where Estimate 1 represents the basic estimate and Estimate 2 represents the estimate computed using ratio estimation.
+
+```{r f}
+kable(round(partf,digits=1))
+```
+
+**Part g**
+
+Below is the Mean Squared Error for each estimator.
+
+```{r g}
+kable(MSE)
+```
+
+**Part h**
+
+The result in part g makes sense. We would expect the error to be lower for ratio estimation, since we expect that there is a relationship between cases and deaths in the population.
 
 **CODE**
 
