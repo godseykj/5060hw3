@@ -20,6 +20,18 @@ library(ggplot2)
 
 ### Question 1
 
+Using the Corona Virus data file, take 100 different simple random samples of 58 countries without replacement using the random seeds numbered 101 through 200. With each sample do the following:
+
+***Part a***
+
+Estimate the total number of deaths in the World as a result of the Corona Virus assuming you know the number of countries to be that contained in the data file.
+
+With this assumption, we find the number of countries to be:
+
+```{r a}
+
+```
+
 **CODE**
 
 ```{r appendix1, ref.label=c(), echo=TRUE}
