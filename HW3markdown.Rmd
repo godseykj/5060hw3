@@ -22,19 +22,26 @@ library(ggplot2)
 
 Using the Corona Virus data file, take 100 different simple random samples of 58 countries without replacement using the random seeds numbered 101 through 200. With each sample do the following:
 
+```{r a}
+load("~/R/STAT5060/5060hw3/corona330.RData")
+cor <- corona330[,c(1,2,3,6)]
+colnames(cor) <- c("Province.State","Country.Region","Cases","Deaths")
+N <- length(unique(cor$Country.Region))
+```
+
 ***Part a***
 
-Estimate the total number of deaths in the World as a result of the Corona Virus assuming you know the number of countries to be that contained in the data file.
+***Estimate the total number of deaths in the World as a result of the Corona Virus assuming you know the number of countries to be that contained in the data file.***
 
-With this assumption, we find the number of countries to be:
+With this assumption, we find the number of countries by finding the number of unique values in the Country column of our dataset. The number of countries in the data set is then found to be the following.
 
-```{r a}
-
+```{r b,include=TRUE}
+N
 ```
 
 **CODE**
 
-```{r appendix1, ref.label=c(), echo=TRUE}
+```{r appendix1, ref.label=c('a'), echo=TRUE}
 
 ```
 

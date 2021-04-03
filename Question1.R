@@ -4,7 +4,7 @@ library(ggplot2)
 
 cor <- corona330[,c(1,2,3,6)]
 colnames(cor) <- c("Province.State","Country.Region","Cases","Deaths")
-N <- nrow(cor)
+N <- length(unique(cor$Country.Region))
 cor$fpc <- N
 n <- 58
 
