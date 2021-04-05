@@ -57,7 +57,7 @@ legend("topleft",legend=paste("R2 is", format(summary(Model5)$r.squared,digits=6
 install.packages("broom")
 require(broom)
 
-# regression estimator is used for cases where regression through origin will not be plausible.
+# regression estimator is used for cases where regression through origin is not plausible.
 #For this we use confidence interval for intercept.
 confint(Model1,level=.95)
 # I think this relationship is highly unlikely to go through the origin and regression estimator is the best choice.
