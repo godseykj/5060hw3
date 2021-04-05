@@ -8,7 +8,9 @@ output:
 ---
 
 ```{r, include=FALSE}
-load("C:/Users/Deepsagar/Desktop/5060hw3/BG_data.RData")
+library(readxl)
+BGSamplingFrame2019version2 <- read_excel("~/R/STAT5060/5060hw3/BGSamplingFrame2019version2.xlsx")
+BG_data=BGSamplingFrame2019version2
 library(knitr)
 library(raster)
 ```
