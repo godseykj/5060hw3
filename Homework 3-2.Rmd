@@ -29,7 +29,7 @@ Numbathrooms=BG_data$NumBaths
 cv(Numbathrooms,na.rm=TRUE)
 ```
 
-cv 0f Numbathrooms is the closest to cv of sqft and r = 0.7 which is greater than o.5. It must be the better choice for ratio estimator
+Coefficient of variation 0f Numbathrooms is the closest to the Coefficient of variation of sqft. Also, the value of r = 0.7 which is greater than o.5. So, It must be the better choice for ratio estimator
 ```{r}
 # Fitting the variables in the linear model
 Model1<-lm(BG_data$SqFootage~BG_data$YearBuilt)
@@ -72,4 +72,4 @@ confint(Model3,level=.95)
 confint(Model4,level=.95)
 confint(Model5,level=.95)
 ```
- I think the relationship between  the auxilary variable Yearbuilt and Sqft is highly unlikely to go through the origin and regression estimator is the best choice.
+Based on the confidence intervals for each of the models, none of the confidence intervals for the models contain 0. Hence, it is highly unlikely for the regression to go through the origin
