@@ -63,5 +63,5 @@ confint(Model2,level=.95)
 confint(Model3,level=.95)
 confint(Model4,level=.95)
 confint(Model5,level=.95)
-Based on the confidence intervals for each of the models, none of the confidence intervals for the models contain 0. Hence, it is highly unlikely for the regression to go through the origin
+#Based on the confidence intervals for each of the models, none of the confidence intervals for the models contain 0. Hence, it is highly unlikely for the regression to go through the origin
 
