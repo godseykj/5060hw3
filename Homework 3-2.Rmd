@@ -29,7 +29,7 @@ Numbathrooms=BG_data$NumBaths
 cv(Numbathrooms,na.rm=TRUE)
 ```
 
-Coefficient of variation 0f Numbathrooms is the closest to the Coefficient of variation of sqft. Also, the value of r = 0.7 which is greater than o.5. So, It must be the better choice for ratio estimator
+Coefficient of variation 0f Numbathrooms is the closest to the Coefficient of variation of sqft. Also, the value of r = 0.7 which is greater than o.5. So, Numbathroorms must be the better choice for ratio estimator
 ```{r}
 # Fitting the variables in the linear model
 Model1<-lm(BG_data$SqFootage~BG_data$YearBuilt)
