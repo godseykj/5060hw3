@@ -12,7 +12,7 @@ Numbedrooms=BG_data$NumBeds
 cv(Numbedrooms,na.rm=TRUE)
 Numbathrooms=BG_data$NumBaths
 cv(Numbathrooms,na.rm=TRUE)
-#cv 0f Numbathrooms is the closest to cv of sqft and r = 0.7 which is greater than o.5. It must be the better choice for ratio estimator
+#Coefficient of variation for Numbathrooms is the closest to Coefficient of variation for Sqft. Also, the value of r = 0.7 is greater than o.5.So,Numbathrooms is the better choice for ratio estimator
 
 
 Model1<-lm(BG_data$SqFootage~BG_data$YearBuilt)
@@ -63,4 +63,5 @@ confint(Model2,level=.95)
 confint(Model3,level=.95)
 confint(Model4,level=.95)
 confint(Model5,level=.95)
+Based on the confidence intervals for each of the models, none of the confidence intervals for the models contain 0. Hence, it is highly unlikely for the regression to go through the origin
 
