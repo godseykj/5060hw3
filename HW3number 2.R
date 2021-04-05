@@ -36,26 +36,24 @@ summary(Model5)
 par(mfrow=c(2,3))
 plot(BG_data$YearBuilt,BG_data$SqFootage, main="Scatterplot of Yearbuilt vs.Sqft")
 abline(Model1) 
-legend("topleft",legend=paste("R2 is", format(summary(Model1)$r.squared,digits=6), "var is ",var(BGSamplingFrame2019version2$YearBuilt)))
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model1)$r.squared,digits=6), "var is ",var(BGSamplingFrame2019version2$YearBuilt)))
 
 plot(BG_data$totACRES,BG_data$SqFootage, main="Scatterplot of Totacres vs.Sqft")
 abline(Model2) 
-legend("topleft",legend=paste("R2 is", format(summary(Model2)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$totACRES)))
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model2)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$totACRES)))
 
 plot(BG_data$NumRooms,BG_data$SqFootage, main="Scatterplot of Numrooms vs.Sqft")
 abline(Model3) 
-legend("topleft",legend=paste("R2 is", format(summary(Model3)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumRooms)))
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model3)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumRooms)))
 
 plot(BG_data$NumBeds,BG_data$SqFootage, main="Scatterplot of Numbeds vs.Sqft")
 abline(Model4) 
-legend("topleft",legend=paste("R2 is", format(summary(Model4)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumBeds)))
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model4)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumBeds)))
 
 plot(BG_data$NumBaths,BG_data$SqFootage, main="Scatterplot of Numbaths vs.Sqft")
 abline(Model5) 
-legend("topleft",legend=paste("R2 is", format(summary(Model5)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumBaths,na.rm=TRUE)))
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model5)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumBaths,na.rm=TRUE)))
 
-install.packages("broom")
-require(broom)
 
 # regression estimator is used for cases where regression through origin is not plausible.
 #For this we use confidence interval for intercept.
