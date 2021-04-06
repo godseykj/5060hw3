@@ -12,8 +12,8 @@ load("C:/Users/Deepsagar/Desktop/5060hw3/BG_data.RData")
 library(knitr)
 library(raster)
 ```
+**CALCULATING THE COEFFICIENT OF VARIATION FOR EACH OF THE VARIABLES**
 ```{r}
-sqft=BG_data$SqFootage
 cv(sqft,na.rm = TRUE)
 YearBuilt=BG_data$YearBuilt
 cv(YearBuilt,na.rm = TRUE )
@@ -26,9 +26,8 @@ cv(Numbedrooms,na.rm=TRUE)
 Numbathrooms=BG_data$NumBaths
 cv(Numbathrooms,na.rm=TRUE)
 ```
-
+**Fitting the variables in linear model**
 ```{r}
-# Fitting the variables in the linear model
 Model1<-lm(BG_data$SqFootage~BG_data$YearBuilt)
 Model2<-lm(BG_data$SqFootage~BG_data$totACRES)
 Model3<-lm(BG_data$SqFootage~BG_data$NumRooms)
@@ -60,15 +59,13 @@ plot(BG_data$NumBaths,BG_data$SqFootage, main="Scatterplot of Numbaths vs.Sqft")
 abline(Model5) 
 legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model5)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumBaths,na.rm=TRUE)))
 
-```
+``` 
 ```{r}
 
-confint(Model1,level=.99)
-confint(Model2,level=.99)
-confint(Model3,level=.99)
-confint(Model4,level=.99)
-confint(Model5,level=.99)
+confint(Model1,level=.95)
+confint(Model2,level=.95)
+confint(Model3,level=.95)
+confint(Model4,level=.95)
+confint(Model5,level=.95)
 ```
-Coefficient of variation 0f Numbathrooms is the closest to the Coefficient of variation of sqft. Also, from the plots we can see the value of r for the relationship between Numbathrooms and Sqft is 0.7 (the highest). We also notice that the variance for auxiliary variable, Numbathrooms is the smallest. So, Numbathroorms must be the better choice as an auxiliary variable for ratio estimator
-
-Based on the confidence intervals for each of the models, none of the confidence intervals for the models contain 0. So, the regression through the origin is unlikely. Looking at all the factors, the auxiliary variable totACRES would be best for regression estimator. 
+The confidence intervals of the intercepts for all of the models do not contain 0. So, it is unlikley that the regression line will go through the origin. Hence, we will not be able to use the ratio estimate using any of the auxiliary variable above. So, we need to use the regression estimator. The correlation coeffcieint between auxiliary variable, Numbaths and outcome variable, Sqft is the greatest one which is displayed in the plot. So, this auxiliary variable would be the best one for regression estimate.
