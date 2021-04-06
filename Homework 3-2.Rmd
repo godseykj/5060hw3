@@ -1,1 +1,74 @@
+---
+title: "Homework 3 number 2"
+author: "Karki"
+date: "4/5/2021"
+output:
+  html_document:
+    df_print: paged
+---
 
+```{r, include=FALSE}
+load("C:/Users/Deepsagar/Desktop/5060hw3/BG_data.RData")
+library(knitr)
+library(raster)
+```
+```{r}
+sqft=BG_data$SqFootage
+cv(sqft,na.rm = TRUE)
+YearBuilt=BG_data$YearBuilt
+cv(YearBuilt,na.rm = TRUE )
+Totacreage=BG_data$totACRES
+cv(Totacreage,na.rm=TRUE)
+NumRooms=BG_data$NumRooms
+cv(NumRooms,na.rm = TRUE)
+Numbedrooms=BG_data$NumBeds
+cv(Numbedrooms,na.rm=TRUE)
+Numbathrooms=BG_data$NumBaths
+cv(Numbathrooms,na.rm=TRUE)
+```
+
+```{r}
+# Fitting the variables in the linear model
+Model1<-lm(BG_data$SqFootage~BG_data$YearBuilt)
+Model2<-lm(BG_data$SqFootage~BG_data$totACRES)
+Model3<-lm(BG_data$SqFootage~BG_data$NumRooms)
+Model4<-lm(BG_data$SqFootage~BG_data$NumBeds)
+Model5<-lm(BG_data$SqFootage~BG_data$NumBaths)
+
+
+```
+**Plot of each of auxillary variables with their respective variances including R^2 values**
+```{r}
+par(mfrow=c(2,3))
+plot(BG_data$YearBuilt,BG_data$SqFootage, main="Scatterplot of Yearbuilt vs.Sqft")
+abline(Model1) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model1)$r.squared,digits=6), "var is ",var(BGSamplingFrame2019version2$YearBuilt)))
+
+plot(BG_data$totACRES,BG_data$SqFootage, main="Scatterplot of Totacres vs.Sqft")
+abline(Model2) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model2)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$totACRES)))
+
+plot(BG_data$NumRooms,BG_data$SqFootage, main="Scatterplot of Numrooms vs.Sqft")
+abline(Model3) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model3)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumRooms)))
+
+plot(BG_data$NumBeds,BG_data$SqFootage, main="Scatterplot of Numbeds vs.Sqft")
+abline(Model4) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model4)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumBeds)))
+
+plot(BG_data$NumBaths,BG_data$SqFootage, main="Scatterplot of Numbaths vs.Sqft")
+abline(Model5) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model5)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumBaths,na.rm=TRUE)))
+
+```
+```{r}
+
+confint(Model1,level=.99)
+confint(Model2,level=.99)
+confint(Model3,level=.99)
+confint(Model4,level=.99)
+confint(Model5,level=.99)
+```
+Coefficient of variation 0f Numbathrooms is the closest to the Coefficient of variation of sqft. Also, from the plots we can see the value of r for the relationship between Numbathrooms and Sqft is 0.7 (the highest). We also notice that the variance for auxiliary variable, Numbathrooms is the smallest. So, Numbathroorms must be the better choice as an auxiliary variable for ratio estimator
+
+Based on the confidence intervals for each of the models, none of the confidence intervals for the models contain 0. So, the regression through the origin is unlikely. Looking at all the factors, the auxiliary variable totACRES would be best for regression estimator. 
