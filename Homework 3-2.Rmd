@@ -1,0 +1,85 @@
+---
+title: "Homework 3 number 2"
+author: "Karki"
+date: "4/5/2021"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r, include=FALSE}
+load("C:/Users/Deepsagar/Desktop/5060hw3/BG_data.RData")
+library(knitr)
+library(raster)
+```
+**CALCULATING THE COEFFICIENT OF VARIATION FOR EACH OF THE VARIABLES**
+```{r}
+cv(sqft,na.rm = TRUE)
+YearBuilt=BG_data$YearBuilt
+cv(YearBuilt,na.rm = TRUE )
+Totacreage=BG_data$totACRES
+cv(Totacreage,na.rm=TRUE)
+NumRooms=BG_data$NumRooms
+cv(NumRooms,na.rm = TRUE)
+Numbedrooms=BG_data$NumBeds
+cv(Numbedrooms,na.rm=TRUE)
+Numbathrooms=BG_data$NumBaths
+cv(Numbathrooms,na.rm=TRUE)
+```
+**Fitting the variables in linear model**
+```{r}
+Model1<-lm(BG_data$SqFootage~BG_data$YearBuilt)
+Model2<-lm(BG_data$SqFootage~BG_data$totACRES)
+Model3<-lm(BG_data$SqFootage~BG_data$NumRooms)
+Model4<-lm(BG_data$SqFootage~BG_data$NumBeds)
+Model5<-lm(BG_data$SqFootage~BG_data$NumBaths)
+
+
+```
+**Plot of each of auxillary variables with their R^2 values**
+```{r}
+par(mfrow=c(2,3))
+plot(BG_data$YearBuilt,BG_data$SqFootage, main="Scatterplot of Yearbuilt vs.Sqft")
+abline(Model1) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model1)$r.squared,digits=6)))
+
+plot(BG_data$totACRES,BG_data$SqFootage, main="Scatterplot of Totacres vs.Sqft")
+abline(Model2) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model2)$r.squared,digits=6)))
+
+plot(BG_data$NumRooms,BG_data$SqFootage, main="Scatterplot of Numrooms vs.Sqft")
+abline(Model3) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model3)$r.squared,digits=6)))
+
+plot(BG_data$NumBeds,BG_data$SqFootage, main="Scatterplot of Numbeds vs.Sqft")
+abline(Model4) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model4)$r.squared,digits=6)))
+
+plot(BG_data$NumBaths,BG_data$SqFootage, main="Scatterplot of Numbaths vs.Sqft")
+abline(Model5) 
+legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model5)$r.squared,digits=6)))
+
+``` 
+```{r}
+
+confint(Model1,level=.95)
+confint(Model2,level=.95)
+confint(Model3,level=.95)
+confint(Model4,level=.95)
+confint(Model5,level=.95)
+```
+**TABLES**
+```{r,include=FALSE}
+Aux_Variables=c("YearBuilt","Totacreage","NumRooms","Numbedrooms","Numbathrooms")
+Coeff_Variation=c(1.809389,345.5363,23.24492,23.22344,37.00307)
+Correlation_with_Sqft=c(0.35341,0.096248,0.584609,0.56246,0.72381)
+Variance_Aux_Variables=c(1258.827566,2.319136,2.50448,0.5840867,0.544388)
+Conf_interval_intercept=c("(-12207.278823   -8630.77010)","(1797.89183    1869.53566)","(147.3579   395.1979)","(203.3198   456.1184)","(554.0693   691.9039)" )
+```
+```{r}
+results=data.frame(Aux_Variables,Coeff_Variation,Correlation_with_Sqft,Variance_Aux_Variables,Conf_interval_intercept)
+knitr::kable(results,"pipe")
+```
+
+The confidence intervals of the intercepts for all of the models do not contain 0. So, it is unlikley that the regression line will go through the origin. Hence, we will not be able to use the ratio estimate using any of the auxiliary variable above. So, we need to use the regression estimator. The correlation coefficient between auxiliary variable, Numbaths and outcome variable, Sqft is the greatest one which is displayed in the table above. Also, the CV of Sqft is 33.93479 which is closest to CV of auxiliary variable,Numbathrooms. The same auxiliary variable also has the smallest variance. So from all the factors combining, we can come to the conclusion that Numbathrooms would be the best auxiliary variable for regression estimate.
