@@ -267,8 +267,26 @@ The confidence intervals of the intercepts for all of the models do not contain 
 
 ### Question 3
 
-**CODE**
+```{r p}
+t <- c(20000,32000,47500)
+Bhat <- c(21985.16,13102.03,32343.43)
+N_d <- c(27,28,35)
+domain <- rbind(t,Bhat,N_d)
+domain <- data.frame(domain)
+colnames(domain) <- c("MM","SM","SA")
+kable(domain)
 
-```{r appendix3, ref.label=c(), echo=TRUE}
-
+t_hat <- c(2395281059)
+v_t_hat <- c("2.3581 x 10^23")
+se_t_hat <- c(485602718279)
+values <- rbind(t_hat,v_t_hat,se_t_hat)
+values <- data.frame(values)
+kable(values)
 ```
+
+
+**EXCEL**
+
+![](excel1.jpg)
+
+![](excel2.jpg)
