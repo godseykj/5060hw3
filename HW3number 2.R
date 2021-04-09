@@ -12,9 +12,7 @@ Numbedrooms=BG_data$NumBeds
 cv(Numbedrooms,na.rm=TRUE)
 Numbathrooms=BG_data$NumBaths
 cv(Numbathrooms,na.rm=TRUE)
-#Coefficient of variation for Numbathrooms is the closest to Coefficient of variation for Sqft. Also, the value of r = 0.7 is greater than o.5.So,Numbathrooms is the better choice for ratio estimator
-
-
+#Fitting the data into linear models
 Model1<-lm(BG_data$SqFootage~BG_data$YearBuilt)
 summary(Model1)
 
@@ -32,7 +30,7 @@ summary(Model4)
 
 Model5<-lm(BG_data$SqFootage~BG_data$NumBaths)
 summary(Model5)
-
+# Plot of the auxiliary variables against Sqft 
 par(mfrow=c(2,3))
 plot(BG_data$YearBuilt,BG_data$SqFootage, main="Scatterplot of Yearbuilt vs.Sqft")
 abline(Model1) 
@@ -55,13 +53,11 @@ abline(Model5)
 legend("topleft",cex=0.8,legend=paste("R2 is", format(summary(Model5)$r.squared,digits=6),"var is", var(BGSamplingFrame2019version2$NumBaths,na.rm=TRUE)))
 
 
-# regression estimator is used for cases where regression through origin is not plausible.
-#For this we use confidence interval for intercept.
+
+# Calculating confidence intervals for intercepts.
 confint(Model1,level=.95)
-# I think this relationship is highly unlikely to go through the origin and regression estimator is the best choice.
 confint(Model2,level=.95)
 confint(Model3,level=.95)
 confint(Model4,level=.95)
 confint(Model5,level=.95)
-#Based on the confidence intervals for each of the models, none of the confidence intervals for the models contain 0. Hence, it is highly unlikely for the regression to go through the origin
 
