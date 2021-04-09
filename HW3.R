@@ -1,6 +1,7 @@
 BG_data=BGSamplingFrame2019version2
 library(raster)
 sqft=BG_data$SqFootage
+#Calculating coefficient of variation
 cv(sqft,na.rm = TRUE)
 YearBuilt=BG_data$YearBuilt
 cv(YearBuilt,na.rm = TRUE )
